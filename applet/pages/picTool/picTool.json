@@ -1,7 +1,0 @@
-{
-    "usingComponents": {
-        "cropper": "/components/cropper/cropper",
-        "privacy-popup": "/components/privacy-popup/privacy-popup",
-        "cu-custom": "/colorui/components/cu-custom"
-    }
-}

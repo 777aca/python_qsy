@@ -1,7 +1,6 @@
 {
-  "appid": "wx8cb69c441578cafc",
   "compileType": "miniprogram",
-  "libVersion": "3.7.0",
+  "libVersion": "trial",
   "packOptions": {
     "ignore": [],
     "include": []
@@ -18,11 +17,13 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "uglifyFileName": true
   },
   "condition": {},
   "editorSetting": {
-    "tabIndent": "insertSpaces",
+    "tabIndent": "auto",
     "tabSize": 2
-  }
+  },
+  "appid": "wx8cb69c441578cafc"
 }

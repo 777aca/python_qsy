@@ -36,6 +36,10 @@ class RedBookLivePlatform:
             return None, f"解析数据错误: {e}"
 
         note_data = rb_data.get('note', {}).get('noteDetailMap', {}).get(rb_data['note'].get('firstNoteId'))
+
+        # 替换 note_data 中的所有 http:// 为 https://
+        self.replace_http_with_https(note_data)
+
         if not note_data:
             return None, "数据解析错误"
 
@@ -44,7 +48,7 @@ class RedBookLivePlatform:
             live_resource = [img['stream']['h264'][0]['masterUrl'] for img in note_data['note']['imageList']]
             print(live_resource)
             result = {
-                'type': 2,
+                'type': 3,
                 'title': note_data['note']['title'],
                 'desc':  note_data['note']['desc'],
                 'cover': note_data['note']['imageList'][0]['urlDefault'],
@@ -54,3 +58,15 @@ class RedBookLivePlatform:
 
 
         return result, None
+    
+    def replace_http_with_https(self, data):
+        if isinstance(data, dict):
+            for key, value in data.items():
+                data[key] = self.replace_http_with_https(value)
+        elif isinstance(data, list):
+            for i in range(len(data)):
+                data[i] = self.replace_http_with_https(data[i])
+        elif isinstance(data, str):
+            if "http://" in data:
+                data = data.replace("http://", "https://")
+        return data

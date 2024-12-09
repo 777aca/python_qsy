@@ -1,5 +1,0 @@
-<view bindtouchend="__e" bindtouchmove="__e" class="{{['rate-box','data-v-fa208744',[animation?'animation':''],containerClass]}}" data-event-opts="{{[ [ 'touchmove',[ [ 'ontouchmove',['$event'] ] ] ],[ 'touchend',[ [ 'e0',['$event'] ] ] ] ]}}">
-    <view bindtap="__e" class="{{['rate','data-v-fa208744',[!disabled&&val<=rateValue&&animation&&touchMoving?'scale':''],'rate-'+i,rateClass]}}" data-event-opts="{{[ [ 'tap',[ [ 'onItemClick',['$event'] ] ] ] ]}}" data-val="{{val}}" style="{{'font-size:'+fontSize+';'+'padding-left:'+(i!==0?rateMargin:0)+';'+'padding-right:'+(i<$root.g0-1?rateMargin:0)+';'+'color:'+(val<=rateValue?activeColor:defaultColor)+';'}}" wx:for="{{list}}" wx:for-index="i" wx:for-item="val" wx:key="*this">
-        <text class="{{['iconfont','data-v-fa208744',icon]}}" style="{{'font-size:'+fontSize+';'}}"></text>
-    </view>
-</view>

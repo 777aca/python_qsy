@@ -1,0 +1,44 @@
+<view class="container">
+  <!-- 内容标题及描述 -->
+  <text class="result-title">{{resultData.title}}</text>
+  <text class="result-desc">{{resultData.desc}}</text>
+
+  <!-- 视频展示与操作按钮 -->
+  <view wx:if="{{resultData.type == 1}}">
+    <view class="gallery-video">
+      <video src="{{resultData.video}}" controls="{{false}}" autoplay="{{false}}" loop="{{false}}" muted="{{true}}" />
+    </view>
+
+    <view class="button-container">
+      <button data-action="copyTitle" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">复制标题</button>
+      <button data-action="downloadVideo" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">保存视频</button>
+    </view>
+  </view>
+
+  <!-- 图片展示与操作按钮 -->
+  <view wx:if="{{resultData.type == 2}}">
+    <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}">
+      <swiper-item wx:for="{{resultData.resourcePath}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFit" class="gallery-image" bindtap="previewImage" />
+      </swiper-item>
+    </swiper>
+
+    <view class="button-container">
+      <button data-action="copyTitle" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">复制标题</button>
+      <button data-action="downloadAllPics" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">保存全部</button>
+    </view>
+  </view>
+  <!-- live图展示与操作按钮 -->
+  <view wx:if="{{resultData.type == 3}}">
+    <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}">
+      <swiper-item wx:for="{{resultData.resourcePath}}" wx:key="*this">
+        <video src="{{item}}" controls="{{false}}" autoplay="{{false}}" loop="{{true}}" muted="{{true}}" mode="aspectFit" class="gallery-image"  data-video-src="{{item}}" /> 
+      </swiper-item>
+    </swiper>
+
+    <view class="button-container">
+      <button data-action="copyTitle" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">复制标题</button>
+      <button data-action="downloadCurrentVideo" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">保存视频</button>
+    </view>
+  </view>
+</view>

@@ -1,12 +1,18 @@
 <view class="container">
-    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{true}}" vueId="2e637200-1" vueSlots="{{['content']}}">
-        <view slot="content">解析记录</view>
-    </cu-custom>
-    <view class="cu-list menu sm-border" wx:for="{{analyseList}}" wx:key="index">
-        <view bindtap="__e" class="cu-item" data-event-opts="{{[ [ 'tap',[ [ 'detail',[index] ] ] ] ]}}">
-            <view class="content">
-                <text class="text-grey">{{item.analyseUrl}}</text>
-            </view>
-        </view>
+  <!-- 页面标题 -->
+  <text class="page-title">历史记录</text>
+
+  <!-- 显示历史记录列表 -->
+  <view class="history-list">
+    <view wx:for="{{historyList}}" wx:key="index" class="history-item" bindtap="viewRecordDetails">
+      <view class="history-title">{{item.title}}</view>
+      <view class="history-desc">{{item.description}}</view>
+      <view class="history-time">{{item.time}}</view>
     </view>
+  </view>
+
+  <!-- 如果没有记录 -->
+  <view wx:if="{{historyList.length === 0}}" class="no-records">
+    <text>暂无历史记录</text>
+  </view>
 </view>
