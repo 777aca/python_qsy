@@ -1,0 +1,9 @@
+<view>
+    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{true}}" vueId="7fe58c50-1" vueSlots="{{['content']}}">
+        <view slot="content">教程</view>
+    </cu-custom>
+    <ad adTheme="white" adType="video" unitId="{{ad}}" wx:if="{{showAd}}"></ad>
+    <view class="grace-rich-text">
+        <rich-text nodes="{{demoHtml}}" type="text"></rich-text>
+    </view>
+</view>

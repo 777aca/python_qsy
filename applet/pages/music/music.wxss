@@ -1,0 +1,30 @@
+.video {
+    align-items: center;
+    background: #fff;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    width: 100%;
+}
+
+.video-play {
+    height: 240px;
+    width: 100%;
+}
+
+.music {
+    background: red;
+}
+
+.img {
+    text-align: center;
+    width: 100%;
+}
+
+.font-color {
+    color: #0081ff;
+}
+
+.remo-color {
+    color: red;
+}

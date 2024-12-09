@@ -1,0 +1,28 @@
+<view>
+    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{true}}" vueId="f0c9060c-1" vueSlots="{{['content']}}">
+        <view slot="content">图片去水印</view>
+    </cu-custom>
+    <view class="solids video padding-sm" wx:if="{{!result}}">
+        <view bindtap="__e" data-event-opts="{{[ [ 'tap',[ [ 'upload',['$event'] ] ] ] ]}}">
+            <text class="cuIcon-cameraadd" style="font-size:40px;"></text>
+        </view>
+        <view bindtap="__e" data-event-opts="{{[ [ 'tap',[ [ 'upload',['$event'] ] ] ] ]}}">
+            <text>点我上传图片去水印</text>
+        </view>
+    </view>
+    <view class="content padding-sm bg-white font-color">
+        <view class="_p">1、图片去水印质量与您的图片息息相关，不同的图片去水印效果可能天差地别</view>
+        <view class="_p">2、图片去水印选择区域可能会有一点不顺手，后期我们会继续优化哦</view>
+        <view class="_p">3、有任何好的建议，请反馈给我们，我们会继续优化的。</view>
+        <view class="_p">4、去水印成功后，点击图片就可以预览哦，预览之后长按图片即可保存</view>
+    </view>
+    <view class="content padding-sm bg-white remo-color">
+        <view class="_p">5、如果是其他短视频平台的图集，请直接去首页复制链接解析 本页面只为本地图片去水印</view>
+    </view>
+    <cropper aspectRatio="{{1}}" bind:__l="__l" bind:cancel="__e" bind:complete="__e" data-event-opts="{{[ [ '^complete',[ ['complete'] ] ],[ '^cancel',[ ['cancel'] ] ] ]}}" imagePath="{{tempFilePath}}" vueId="f0c9060c-2" wx:if="{{handleFaceStatus}}"></cropper>
+    <view class="img" wx:if="{{!handleFaceStatus}}">
+        <image bindtap="__e" data-event-opts="{{[ [ 'tap',[ [ 'previewPic',['$event'] ] ] ] ]}}" mode="aspectFit" src="{{resultImg}}"></image>
+    </view>
+    <ad adTheme="white" adType="video" unitId="{{indexAd}}" wx:if="{{showAd}}"></ad>
+    <privacy-popup bind:__l="__l" vueId="f0c9060c-3"></privacy-popup>
+</view>

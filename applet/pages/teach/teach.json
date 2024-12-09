@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "cu-custom": "/colorui/components/cu-custom",
+        "privacy-popup": "/components/privacy-popup/privacy-popup"
+    }
+}

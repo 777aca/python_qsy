@@ -1,0 +1,137 @@
+.cropper {
+    background-color: #000;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: -1000000;
+}
+
+.cropper.show {
+    opacity: 1;
+    z-index: 999;
+}
+
+.cropper .cropper-head {
+    align-items: center;
+    display: flex;
+    height: calc(25px + 88rpx);
+    justify-content: flex-end;
+    padding-top: 25px;
+    position: fixed;
+    top: 0;
+    width: 750rpx;
+    z-index: 6;
+}
+
+.cropper .cropper-btn {
+    border: 1px solid #dfdfdf;
+    border-radius: 30rpx;
+    color: #fff;
+    font-size: 14px;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin: 0 40rpx;
+    text-align: center;
+    width: 250rpx;
+}
+
+.cropper .bg {
+    background-color: #006eff;
+    border: 1px solid #006eff;
+}
+
+.cropper .cropper-body {
+    height: calc(100vh - 25px - 88rpx - 100rpx - var(--safe-area-inset-bottom));
+    margin: 0 30rpx;
+    position: relative;
+}
+
+.cropper .cropper-bottom {
+    align-items: center;
+    bottom: 70rpx;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+}
+
+.cropper .cropper-image {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.cropper .cropper-stage {
+    position: absolute;
+}
+
+.cropper .cropper-stage .cropper-box {
+    border: 4rpx solid #ddd;
+    box-shadow: 0 0 0 2000rpx rgba(0,0,0,.5);
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.cropper .cropper-stage .cropper-box .lt {
+    border-left: 12rpx solid #fff;
+    border-top: 12rpx solid #fff;
+    height: 20rpx;
+    left: -6rpx;
+    position: absolute;
+    top: -6rpx;
+    width: 20px;
+}
+
+.cropper .cropper-stage .cropper-box .lb {
+    border-bottom: 12rpx solid #fff;
+    border-left: 12rpx solid #fff;
+    bottom: -6rpx;
+    height: 20rpx;
+    left: -6rpx;
+    position: absolute;
+    width: 20rpx;
+}
+
+.cropper .cropper-stage .cropper-box .rt {
+    border-top: 12rpx solid #fff;
+    top: -6rpx;
+}
+
+.cropper .cropper-stage .cropper-box .rb,.cropper .cropper-stage .cropper-box .rt {
+    border-right: 12rpx solid #fff;
+    height: 20rpx;
+    position: absolute;
+    right: -6rpx;
+    width: 20rpx;
+}
+
+.cropper .cropper-stage .cropper-box .rb {
+    border-bottom: 12rpx solid #fff;
+    bottom: -6rpx;
+}
+
+.cropper .cropper-stage .cropper-box .line-h,.cropper .cropper-stage .cropper-box .line-v {
+    opacity: .5;
+    position: absolute;
+}
+
+.cropper .cropper-stage .cropper-box .line-v {
+    border-left: 2rpx dashed #fff;
+    height: 100%;
+    width: 2rpx;
+}
+
+.cropper .cropper-stage .cropper-box .line-h {
+    border-bottom: 2rpx dashed #fff;
+    height: 2rpx;
+    width: 100%;
+}
+
+.cropper .cropper-canvas {
+    background-color: red;
+    left: 5000rpx;
+    position: fixed;
+}

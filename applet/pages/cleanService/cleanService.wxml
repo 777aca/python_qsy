@@ -1,0 +1,52 @@
+<view>
+    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{false}}" vueId="0c275b80-1" vueSlots="{{['content']}}">
+        <view slot="content">{{parseTitle}}</view>
+    </cu-custom>
+    <view>
+        <view class="block">
+            <view class="block-textarea blockW">
+                <textarea bindinput="__e" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','textareaAValue','$event',[] ] ],[ 'check',['$event'] ] ] ] ]}}" maxlength="-1" placeholder="请输入视频或图集地址...." placeholderStyle="color:#999999" value="{{textareaAValue}}"></textarea>
+            </view>
+            <view class="empty_wrap">
+                <view>
+                    <image bindtap="__e" class="empty_wrap_img" data-event-opts="{{[ [ 'tap',[ [ 'clearText',['$event'] ] ] ] ]}}" mode="widthFix" src="../../static/img/qingkong.png"></image>
+                    <image bindtap="__e" class="empty_wrap_img" data-event-opts="{{[ [ 'tap',[ [ 'toSetData',['$event'] ] ] ] ]}}" mode="widthFix" src="../../static/img/copy.png" style="margin-left:30rpx;"></image>
+                </view>
+                <view bindtap="__e" class="empty_wrap_ri" data-event-opts="{{[ [ 'tap',[ [ 'page',[1] ] ] ] ]}}">
+                    <image class="empty_wrap_problem" mode="widthFix" src="../../static/img/problem.png"></image>
+                    <text>去水印教程</text>
+                </view>
+            </view>
+            <view bindtap="__e" class="blockW bcBtn" data-event-opts="{{[ [ 'tap',[ ['adAnalyse'] ] ] ]}}" style="margin:10rpx 0 0 0;">一键去水印</view>
+        </view>
+    </view>
+    <view wx:if="{{result}}">
+        <view class="padding-sm">
+            <video class="video-play" poster="{{cover}}" src="{{videoUrl}}"></video>
+        </view>
+        <cmd-progress bind:__l="__l" custom="{{true}}" percent="{{percent}}" strokeColor="white" successPercent="{{percent}}" vueId="0c275b80-2" vueSlots="{{['default']}}">
+            <text style="color:#009688;">{{percent+'%'}}</text>
+        </cmd-progress>
+        <view class="box">
+            <view class="cu-bar btn-group">
+                <button bindtap="__e" class="cu-btn bg-orange shadow-blur" data-event-opts="{{[ [ 'tap',[ [ 'copyMvUrl',['$event'] ] ] ] ]}}" style="height:30px;font-size:16px;">复制无水印链接</button>
+                <button bindtap="__e" class="cu-btn bg-green shadow" data-event-opts="{{[ [ 'tap',[ [ 'downFile',[1,'$0'],['videoUrl'] ] ] ] ]}}" style="height:30px;font-size:16px;">保存到手机</button>
+            </view>
+        </view>
+        <view class="box" wx:if="{{null!=cover}}">
+            <view class="cu-bar btn-group">
+                <button bindtap="__e" class="cu-btn bg-blue shadow-blur" data-event-opts="{{[ [ 'tap',[ [ 'copyMusic',[3,'$0'],['cover'] ] ] ] ]}}" style="height:30px;font-size:16px;" wx:if="{{null!=cover}}">复制封面链接</button>
+                <button bindtap="__e" class="cu-btn bg-grey shadow" data-event-opts="{{[ [ 'tap',[ [ 'downFile',[2,'$0'],['cover'] ] ] ] ]}}" style="height:30px;font-size:16px;" wx:if="{{null!=cover}}">保存封面</button>
+            </view>
+        </view>
+        <view class="box">
+            <view class="cu-bar btn-group">
+                <button bindtap="__e" class="cu-btn bg-blue shadow-blur" data-event-opts="{{[ [ 'tap',[ ['copyTitle'] ] ] ]}}" style="height:30px;font-size:16px;" wx:if="{{null!=cover}}">复制标题</button>
+            </view>
+        </view>
+    </view>
+    <view style="margin-top:8px;" wx:if="{{showAd}}">
+        <ad-custom bind:__l="__l" unitId="{{ad}}" vueId="0c275b80-3"></ad-custom>
+    </view>
+    <privacy-popup bind:__l="__l" bind:agree="__e" class="vue-ref" data-event-opts="{{[ [ '^agree',[ ['checkAction'] ] ] ]}}" data-ref="privacyPopup" vueId="0c275b80-4"></privacy-popup>
+</view>

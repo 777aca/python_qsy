@@ -1,0 +1,12 @@
+<view class="data-v-55fba30f" wx:if="{{showPop}}">
+    <view class="privacy-mask data-v-55fba30f">
+        <view class="privacy-wrap data-v-55fba30f">
+            <view class="privacy-title data-v-55fba30f">用户隐私保护</view>
+            <view class="privacy-desc data-v-55fba30f">请阅读<text bindtap="__e" class="privacy-link data-v-55fba30f" data-event-opts="{{[ [ 'tap',[ [ 'openPrivacyContract',['$event'] ] ] ] ]}}">{{privacyContractName}}</text>， 当同意时，表示已同意该协议；如不同意，将无法使用小程序相关功能。</view>
+            <view class="privacy-button-flex data-v-55fba30f">
+                <button bindtap="__e" class="privacy-button-btn bg-disagree data-v-55fba30f" data-event-opts="{{[ [ 'tap',[ [ 'handleDisagree',['$event'] ] ] ] ]}}">不同意</button>
+                <button bindagreeprivacyauthorization="__e" class="privacy-button-btn bg-agree data-v-55fba30f" data-event-opts="{{[ [ 'agreeprivacyauthorization',[ [ 'handleAgree',['$event'] ] ] ] ]}}" id="agree-btn" openType="agreePrivacyAuthorization">同意并继续</button>
+            </view>
+        </view>
+    </view>
+</view>

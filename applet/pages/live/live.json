@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "cmd-progress": "/components/cmd-progress/cmd-progress",
+        "privacy-popup": "/components/privacy-popup/privacy-popup",
+        "rate-popup": "/components/rate-popup/rate-popup",
+        "cu-custom": "/colorui/components/cu-custom"
+    }
+}

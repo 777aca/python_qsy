@@ -1,0 +1,31 @@
+.video-play {
+    height: 180px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.text-area {
+    background: #fff;
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.tower-swiper .tower-item {
+    margin-left: calc(var(--left) * 100rpx - 150rpx);
+    transform: scale(calc(.5 + var(--index) / 10));
+    z-index: var(--index);
+}
+
+.clearBtn {
+    background-color: #16a7f8;
+    color: #fff;
+    width: 120px;
+}
+
+.teach {
+    color: #16a7f8;
+    text-align: center;
+    text-decoration: underline;
+}

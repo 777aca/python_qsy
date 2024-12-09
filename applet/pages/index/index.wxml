@@ -1,0 +1,44 @@
+<view>
+    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{false}}" vueId="8dd740cc-1" vueSlots="{{['content']}}">
+        <view slot="content">{{appName}}</view>
+    </cu-custom>
+    <view  class="{{['warnTip',globalColor]}}" style="top: 140rpx;" wx:if="{{showTip}}">
+        点击添加到我的小程序，下次快速访问。
+    </view>
+    <swiper autoplay="{{true}}" circular="{{true}}" class="screen-swiper square-dot" duration="400" indicatorDots="{{true}}" interval="3000" style="min-height:176px;">
+        <swiper-item bindtap="__e" data-event-opts="{{[ [ 'tap',[ [ 'bannerClick',[index] ] ] ] ]}}" wx:for="{{banner}}" wx:key="index">
+            <image mode="aspectFill" src="{{item.imgUrl}}"></image>
+        </swiper-item>
+    </swiper>
+    <view class="cu-form-group solid-bottom cu-bar newInputWrap" style="background-color:#f1f1f1;">
+        <input bindinput="__e" class="nowInput" data-event-opts="{{[ [ 'input',[ [ '__set_model',[ '','analyseUrl','$event',[] ] ] ] ] ]}}" maxlength="-1" name="input" placeholder="请输入视频或图集链接" value="{{analyseUrl}}"></input>
+        <button bindtap="__e" class="{{['cu-btn','shadow','mr5',globalColor]}}" data-event-opts="{{[ [ 'tap',[ [ 'videoAnalyse',['$event'] ] ] ] ]}}">去水印</button>
+        <button bindtap="__e" class="{{['cu-btn','shadow',globalColor]}}" data-event-opts="{{[ [ 'tap',[ [ 'clearText',['$event'] ] ] ] ]}}" wx:if="{{prizeType==0}}">粘贴</button>
+    </view>
+    <view class="grid col-2 width98">
+        <view class="pic-padding">
+            <view bindtap="__e" class="{{['radius','','shadow-blur',globalColor]}}" data-event-opts="{{[ [ 'tap',[ [ 'page',[1] ] ] ] ]}}">
+                <view class="nowBody">
+                    <view class="headWord">
+                        <text class="firstHead">常见问题</text>
+                        <view>使用问题</view>
+                    </view>
+                    <image alt class="headImg _img" src="{{$root.m0}}"></image>
+                </view>
+            </view>
+        </view>
+        <view class="pic-padding">
+            <view bindtap="__e" class="{{['radius','','shadow-blur',globalColor]}}" data-event-opts="{{[ [ 'tap',[ [ 'page',[4] ] ] ] ]}}">
+                <view class="nowBody">
+                    <view class="headWord">
+                        <text class="firstHead">小红书live图</text>
+                        <view>去水印</view>
+                    </view>
+                    <image alt class="headImg _img" src="{{$root.m1}}"></image>
+                </view>
+                <view class="cu-tag badge" style="top:0px;right:0px;">热门</view>
+            </view>
+        </view>
+    </view>
+    <privacy-popup bind:__l="__l" vueId="8dd740cc-2"></privacy-popup>
+</view>

@@ -1,0 +1,12 @@
+<view class="container">
+    <cu-custom bgColor="{{globalColor}}" bind:__l="__l" isBack="{{true}}" vueId="2e637200-1" vueSlots="{{['content']}}">
+        <view slot="content">解析记录</view>
+    </cu-custom>
+    <view class="cu-list menu sm-border" wx:for="{{analyseList}}" wx:key="index">
+        <view bindtap="__e" class="cu-item" data-event-opts="{{[ [ 'tap',[ [ 'detail',[index] ] ] ] ]}}">
+            <view class="content">
+                <text class="text-grey">{{item.analyseUrl}}</text>
+            </view>
+        </view>
+    </view>
+</view>

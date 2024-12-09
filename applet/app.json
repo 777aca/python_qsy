@@ -1,0 +1,44 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/parse/parse",
+        "pages/picInfo/picInfo",
+        "pages/videoInfo/videoInfo",
+        "pages/list/list",
+        "pages/my/my",
+        "pages/md5/md5",
+        "pages/otherTool/otherTool",
+        "pages/music/music",
+        "pages/batch/batch",
+        "pages/teach/teach",
+        "pages/clearMusic/clearMusic",
+        "pages/picTool/picTool",
+        "pages/cropper/cropper",
+        "pages/live/live",
+        "pages/movevideo/movevideo",
+        "pages/cutVideo/cutVideo",
+        "pages/cleanService/cleanService"
+    ],
+    "window": {
+        "navigationStyle": "custom"
+    },
+    "tabBar": {
+        "color": "#666666",
+        "selectedColor": "#5677FC",
+        "backgroundColor": "#FFFFFF",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "static/tabbar/home.png",
+                "selectedIconPath": "static/tabbar/tab-home-blue.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "static/tabbar/user.png",
+                "selectedIconPath": "static/tabbar/tab-user-blue.png"
+            }
+        ]
+    }
+}

@@ -1,0 +1,33 @@
+.rate-popup .rate-warp.data-v-740a786b {
+    background: #fff;
+    border-radius: 20rpx;
+    font-size: 16px;
+    line-height: 30px;
+    padding: 40rpx 40rpx 60rpx;
+    position: relative;
+    text-align: center;
+    width: 600rpx;
+}
+
+.rate-popup .close-btn.data-v-740a786b {
+    position: absolute;
+    right: 30rpx;
+    top: 30prx;
+}
+
+.rate-popup .rate-warp .rate-img.data-v-740a786b {
+    display: block;
+    height: 162rpx;
+    margin: 50rpx auto;
+    width: 80%;
+}
+
+.rate-popup .rate-warp .rate-star.data-v-740a786b {
+    margin-top: 20px;
+}
+
+.rate-popup .rate-warp .tip.data-v-740a786b {
+    color: #bbb;
+    font-size: 14px;
+    margin-top: 10px;
+}

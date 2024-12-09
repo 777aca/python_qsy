@@ -1,0 +1,15 @@
+<view class="rate-popup data-v-740a786b">
+    <uni-popup animation="{{false}}" bind:__l="__l" class="data-v-740a786b vue-ref" data-ref="popup" type="center" vueId="db3581bc-1" vueSlots="{{['default']}}">
+        <view class="rate-warp data-v-740a786b">
+            <view bindtap="__e" class="close-btn data-v-740a786b" data-event-opts="{{[ [ 'tap',[ [ 'closeRate',['$event'] ] ] ] ]}}">
+                <uni-icons bind:__l="__l" class="data-v-740a786b" color="#bbb" size="30" type="close" vueId="{{'db3581bc-2'+','+'db3581bc-1'}}"></uni-icons>
+            </view>
+            <image mode class="rate-img data-v-740a786b" src="../../static/rate.jpeg"></image>
+            <view class="data-v-740a786b">对我们的产品还满意吗？<view class="_br data-v-740a786b"></view>给个好评吧！</view>
+            <view class="rate-star data-v-740a786b">
+                <jp-rate animation="{{false}}" bind:__l="__l" bind:change="__e" bind:updateValue="__e" class="data-v-740a786b" data-event-opts="{{[ [ '^updateValue',[ [ '__set_sync',['$0','value','$event'],[''] ] ] ],[ '^change',[ ['rateChange'] ] ] ]}}" fontSize="40px" value="{{value}}" vueId="{{'db3581bc-3'+','+'db3581bc-1'}}"></jp-rate>
+            </view>
+            <view class="tip data-v-740a786b">1-5星 轻触选择</view>
+        </view>
+    </uni-popup>
+</view>

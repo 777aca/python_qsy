@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "uni-transition": "/uni_modules/uni-transition/components/uni-transition/uni-transition",
+        "cu-custom": "/colorui/components/cu-custom",
+        "privacy-popup": "/components/privacy-popup/privacy-popup"
+    },
+    "component": true
+}

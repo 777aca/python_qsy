@@ -1,0 +1,72 @@
+.privacy-mask.data-v-55fba30f {
+    align-items: center;
+    background: rgba(0,0,0,.2);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 5000;
+}
+
+.privacy-wrap.data-v-55fba30f {
+    background: #fff;
+    border-radius: 16rpx;
+    box-sizing: border-box;
+    padding: 48rpx 30rpx;
+    width: 632rpx;
+}
+
+.privacy-title.data-v-55fba30f {
+    font-size: 36rpx;
+    font-weight: 700;
+    padding: 0rpx 30rpx 40rpx;
+    text-align: center;
+}
+
+.privacy-desc.data-v-55fba30f {
+    color: #555;
+    font-size: 30rpx;
+    line-height: 2;
+    padding: 0 40rpx;
+    text-align: left;
+}
+
+.privacy-link.data-v-55fba30f {
+    color: #2f80ed;
+}
+
+.privacy-button-flex.data-v-55fba30f {
+    display: flex;
+    padding: 20rpx 40rpx;
+}
+
+.privacy-button-btn.data-v-55fba30f {
+    background: #07c160;
+    border: none;
+    border-radius: 20rpx;
+    color: #fff;
+    flex: 1;
+    font-size: 30rpx;
+    font-weight: 500;
+    height: 100rpx;
+    justify-content: center;
+    line-height: 100rpx;
+    margin-right: 30rpx;
+    text-align: center;
+}
+
+.privacy-button-btn.data-v-55fba30f::after {
+    border: none;
+}
+
+.bg-disagree.data-v-55fba30f {
+    background: #f2f2f2;
+    color: #07c160;
+}
+
+.bg-agree.data-v-55fba30f {
+    margin-right: 0rpx;
+}
