@@ -19,7 +19,7 @@
   <view wx:if="{{resultData.type == 2}}">
     <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}">
       <swiper-item wx:for="{{resultData.resourcePath}}" wx:key="*this">
-        <image src="{{item}}" mode="aspectFit" class="gallery-image" bindtap="previewImage" />
+        <image src="{{item}}" data-src="{{item}}" mode="aspectFit" class="gallery-image" bindtap="previewImage" />
       </swiper-item>
     </swiper>
 
@@ -30,15 +30,23 @@
   </view>
   <!-- live图展示与操作按钮 -->
   <view wx:if="{{resultData.type == 3}}">
-    <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}">
-      <swiper-item wx:for="{{resultData.resourcePath}}" wx:key="*this">
-        <video src="{{item}}" controls="{{false}}" autoplay="{{false}}" loop="{{true}}" muted="{{true}}" mode="aspectFit" class="gallery-image"  data-video-src="{{item}}" /> 
-      </swiper-item>
-    </swiper>
-
-    <view class="button-container">
-      <button data-action="copyTitle" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">复制标题</button>
-      <button data-action="downloadCurrentVideo" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">保存视频</button>
+  <!-- 复选框组 -->
+  <checkbox-group bindchange="onCheckboxChange" class="video-list">
+    <view class="video-item" wx:for="{{resultData.resourcePath}}" wx:key="*this">
+      <view class="video-container">
+        <!-- 勾选框定位在左上角 -->
+        <checkbox value="{{item}}" checked="{{isChecked(item)}}" class="video-checkbox" />
+        <video src="{{item}}" controls="{{false}}" autoplay="{{false}}" loop="{{true}}" muted="{{true}}" mode="aspectFit" class="gallery-video" data-video-src="{{item}}" />
+      </view>
     </view>
+  </checkbox-group>
+
+  <!-- 按钮区域 -->
+  <view class="button-container">
+    <button data-action="copyTitle" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">复制标题</button>
+    <button data-action="downloadSelectedVideos" class="{{['shadow', globalColor]}}" bindtap="handleButtonClick">保存已选视频</button>
   </view>
+</view>
+
+
 </view>

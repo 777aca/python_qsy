@@ -83,12 +83,8 @@ Page({
   copyToClipboard(data, successMessage) {
     wx.setClipboardData({
       data,
-      success: () => this.showModal(successMessage),
+      success: () => {},
     });
-  },
-
-  showModal(content) {
-    wx.showModal({ content });
   },
 
   navigate(url) {

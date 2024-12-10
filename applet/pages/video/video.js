@@ -6,6 +6,7 @@ Page({
     adWatchedTimestamp: null,
     currentAction: null,
     adUnitId: "", // 广告单元 ID
+    selectedVideos: new Set(), // 存储已选中的视频
     downloadList: [
       // 合法 download 列表
     ],
@@ -15,7 +16,6 @@ Page({
     const resultData = JSON.parse(decodeURIComponent(options.data));
     const hasWatchedAd = wx.getStorageSync("hasWatchedAd");
     const adWatchedTimestamp = wx.getStorageSync("adWatchedTimestamp");
-
     this.setData({
       resultData,
       hasWatchedAd: !!hasWatchedAd,
@@ -23,11 +23,23 @@ Page({
     });
   },
 
+  // 处理勾选框变化
+  onCheckboxChange: function (e) {
+    const selectedValues = e.detail.value;
+    const selectedVideos = new Set(selectedValues); // 使用 Set 更新选中的视频
+    console.log(selectedVideos);
+    this.setData({
+      selectedVideos,
+    });
+  },
+  // 判断视频是否选中
+  isChecked: function (item) {
+    return this.data.selectedVideos.has(item); // 使用 Set 的 has 方法判断
+  },
+
   // 执行具体动作
   handleButtonClick: function (e) {
     const action = e.currentTarget.dataset.action;
-    console.log(action);
-
     switch (action) {
       case "copyTitle":
         this.copyToClipboard(
@@ -41,43 +53,60 @@ Page({
       case "downloadAllPics":
         this.downloadAllPics(this.data.resultData.resourcePath);
         break;
-      case "downloadCurrentVideo":
-        this.downloadCurrentVideo();
+      case "downloadSelectedVideos":
+        this.downloadSelectedVideos();
         break;
       default:
         break;
     }
   },
 
-  // 下载当前 live 视频
-  downloadCurrentVideo: function () {
-    const videoUrl = this.data.currentVideoUrl; // 获取当前视频 URL
-
-    if (!videoUrl || !this.isUrlInDownloadList(videoUrl)) {
-      wx.showToast({ title: "链接不合法", icon: "none" });
+  downloadSelectedVideos: function () {
+    const selectedVideos = this.data.selectedVideos;
+    if (!selectedVideos.size) {
+      wx.showToast({
+        title: "请选择视频",
+        icon: "none",
+      });
       return;
     }
 
-    wx.showLoading({ title: "下载视频中..." });
-    wx.downloadFile({
-      url: videoUrl,
-      success: (res) => {
-        if (res.statusCode === 200) {
-          this.saveFile(
-            res.tempFilePath,
-            "saveVideoToPhotosAlbum",
-            "视频保存成功"
-          );
-        } else {
-          wx.showToast({ title: "视频下载失败", icon: "none" });
-        }
-      },
-      fail: () =>
-        wx.showToast({
-          title: "下载失败，请复制链接后用浏览器下载",
-          icon: "none",
-        }),
-      complete: () => wx.hideLoading(),
+    // 这里可以进行下载操作
+    selectedVideos.forEach((videoUrl) => {
+      wx.downloadFile({
+        url: videoUrl,
+        success(res) {
+          if (res.statusCode === 200) {
+            // 调用 saveVideoToPhotosAlbum 直接保存到相册
+            wx.saveVideoToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success() {
+                wx.showToast({
+                  title: "视频保存成功",
+                  icon: "success",
+                });
+              },
+              fail() {
+                wx.showToast({
+                  title: "视频保存失败",
+                  icon: "none",
+                });
+              },
+            });
+          } else {
+            wx.showToast({
+              title: "下载失败",
+              icon: "none",
+            });
+          }
+        },
+        fail() {
+          wx.showToast({
+            title: "下载失败",
+            icon: "none",
+          });
+        },
+      });
     });
   },
 
@@ -85,14 +114,29 @@ Page({
   saveFile: function (filePath, saveMethod, successMessage) {
     wx[saveMethod]({
       filePath,
-      success: () => wx.showToast({ title: successMessage, icon: "success" }),
-      fail: () => wx.showToast({ title: "保存到相册失败", icon: "none" }),
+      success: () =>
+        wx.showToast({
+          title: successMessage,
+          icon: "success",
+        }),
+      fail: () =>
+        wx.showToast({
+          title: "保存到相册失败",
+          icon: "none",
+        }),
     });
   },
 
   // 判断 URL 是否在合法列表
   isUrlInDownloadList: function (url) {
     return this.data.downloadList.some((validUrl) => url.includes(validUrl));
+  },
+  previewImage: function (e) {
+    const current = e.target.dataset.src; // 获取当前点击的图片URL
+    wx.previewImage({
+      current: current, // 当前显示的图片链接
+      urls: this.data.resultData.resourcePath, // 需要预览的图片http链接列表
+    });
   },
   // 下载视频
   downloadVideo: function (url) {
@@ -149,7 +193,11 @@ Page({
   copyToClipboard: function (data, successMessage) {
     wx.setClipboardData({
       data,
-      success: () => wx.showToast({ title: successMessage, icon: "success" }),
+      success: () =>
+        wx.showToast({
+          title: successMessage,
+          icon: "success",
+        }),
     });
   },
 });
