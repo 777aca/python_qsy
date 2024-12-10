@@ -26,16 +26,22 @@ Page({
   },
 
   closeNotice: function () {
-    this.setData({ showTip: false });
+    this.setData({
+      showTip: false
+    });
     wx.setStorageSync("autoTip", "autoTip");
   },
 
   onInputUrl: function (e) {
-    this.setData({ inputUrl: e.detail.value });
+    this.setData({
+      inputUrl: e.detail.value
+    });
   },
 
   onClear: function () {
-    this.setData({ inputUrl: "" });
+    this.setData({
+      inputUrl: ""
+    });
   },
 
   onShare: function () {
@@ -50,24 +56,25 @@ Page({
     wx.getClipboardData({
       success: (res) => {
         const inputUrl = res.data || "";
-        this.setData({ inputUrl });
+        this.setData({
+          inputUrl
+        });
 
         if (inputUrl.length === 0) {
-          wx.showModal({
-            content: "未检测到视频地址",
-            showCancel: false,
+          wx.showToast({
+            title: "未检测到视频地址",
+            icon: "none",
           });
         }
       },
       fail: (err) => {
         const errMsg =
-          err.errno === 1512001
-            ? "没有检测到有效的链接地址"
-            : "粘贴链接失败，请手动粘贴到输入框";
-        wx.showModal({
-          title: "提示",
-          content: errMsg,
-          showCancel: false,
+          err.errno === 1512001 ?
+          "没有检测到有效的链接地址" :
+          "粘贴链接失败，请手动粘贴到输入框";
+        wx.showToast({
+          title: errMsg,
+          icon: "none",
         });
       },
     });
@@ -92,12 +99,17 @@ Page({
   },
 
   requestParse: function (link) {
-    wx.showLoading({ title: "解析中..." });
+    wx.showLoading({
+      title: "解析中..."
+    });
 
     wx.request({
       url: `${this.data.reqUrl}parse_video`,
       method: "POST",
-      data: { link, type: "live" },
+      data: {
+        link,
+        type: "live"
+      },
       success: (res) => {
         wx.hideLoading();
         const data = res.data.data;

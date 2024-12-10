@@ -16,6 +16,6 @@
   
   <view class="faq-item">
     <text class="faq-question">视频保存失败?</text>
-    <text class="faq-answer">由于微信小程序的限制，有些视频（视频大小不超过200M或被旋转不符合规则）会保存失败，Android手机请复制链接后到浏览器（推荐QQ浏览器）下载。苹果手机可以下载document byreaddle这个软件保存。</text>
+    <text class="faq-answer">由于微信小程序的限制，有些视频（视频大小不超过200M或被旋转不符合规则）会保存失败。</text>
   </view>
 </view>

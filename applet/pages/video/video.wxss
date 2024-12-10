@@ -2,6 +2,13 @@
   padding: 20px;
 }
 
+.result-title{
+  margin-bottom: 10px;
+}
+.result-desc{
+  margin-bottom: 10px;
+}
+
 .image-swiper {
   width: 560rpx;
   height: 700rpx;
@@ -16,7 +23,6 @@
 .result-image {
   width: 100%;
   height: auto;
-  margin-bottom: 10px;
 }
 
 .video-list {
@@ -58,7 +64,7 @@
 }
 
 .button-container button {
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .gallery {

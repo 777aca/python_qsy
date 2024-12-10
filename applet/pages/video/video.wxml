@@ -1,12 +1,12 @@
 <view class="container">
   <!-- 内容标题及描述 -->
-  <text class="result-title">{{resultData.title}}</text>
-  <text class="result-desc">{{resultData.desc}}</text>
+  <view class="result-title" wx:if="{{resultData.title}}">{{resultData.title}}</view>
+  <view class="result-desc" wx:if="{{resultData.desc}}">{{resultData.desc}}</view>
 
   <!-- 视频展示与操作按钮 -->
   <view wx:if="{{resultData.type == 1}}">
-    <view class="gallery-video">
-      <video src="{{resultData.video}}" controls="{{false}}" autoplay="{{false}}" loop="{{false}}" muted="{{true}}" />
+    <view class="video-container">
+      <video class="gallery-video" src="{{resultData.video}}" controls="{{false}}" autoplay="{{false}}" loop="{{false}}" muted="{{true}}" />
     </view>
 
     <view class="button-container">

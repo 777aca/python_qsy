@@ -272,13 +272,12 @@ page {
 }
 
 .warnTip {
-  font-size: 20rpx;
+  font-size: 24rpx;
   border-radius: 12rpx;
   line-height: 52rpx;
   padding: 12rpx 20rpx;
   right: 20rpx;
   top: 38rpx;
-  width: 400rpx;
   z-index: 2;
 }
 
@@ -394,4 +393,13 @@ page {
 .width98 {
   margin: 0 auto;
   width: 98%;
+}
+
+.copyright {
+  position: fixed;
+  bottom: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  color: gray;
+  font-size: 18rpx;
 }
