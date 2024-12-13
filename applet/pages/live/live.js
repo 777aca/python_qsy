@@ -113,10 +113,8 @@ Page({
       success: (res) => {
         wx.hideLoading();
         const data = res.data.data;
-
         if (data) {
           const resultData = data;
-
           if (resultData) {
             wx.navigateTo({
               url: `/pages/video/video?data=${encodeURIComponent(

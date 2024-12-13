@@ -45,8 +45,13 @@ class RedBookLivePlatform:
 
         result = {}
         if note_data['note']['type'] == "normal":  # live图
-            live_resource = [img['stream']['h264'][0]['masterUrl'] for img in note_data['note']['imageList']]
+            live_resource = []
+            for img in note_data['note']['imageList']:
+                # 判断 'stream' 和 'h264' 是否存在
+                if 'stream' in img and 'h264' in img['stream'] and isinstance(img['stream']['h264'], list):
+                    live_resource.append(img['stream']['h264'][0]['masterUrl'])
             print(live_resource)
+
             result = {
                 'type': 3,
                 'title': note_data['note']['title'],
@@ -56,8 +61,8 @@ class RedBookLivePlatform:
             }
             print(result)
 
-
         return result, None
+
     
     def replace_http_with_https(self, data):
         if isinstance(data, dict):

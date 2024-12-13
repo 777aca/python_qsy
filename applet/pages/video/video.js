@@ -76,6 +76,7 @@ Page({
       wx.downloadFile({
         url: videoUrl,
         success(res) {
+          console.log(res);
           if (res.statusCode === 200) {
             // 调用 saveVideoToPhotosAlbum 直接保存到相册
             wx.saveVideoToPhotosAlbum({
