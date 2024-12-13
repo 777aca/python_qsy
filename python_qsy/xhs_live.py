@@ -50,7 +50,6 @@ class RedBookLivePlatform:
                 # 判断 'stream' 和 'h264' 是否存在
                 if 'stream' in img and 'h264' in img['stream'] and isinstance(img['stream']['h264'], list):
                     live_resource.append(img['stream']['h264'][0]['masterUrl'])
-            print(live_resource)
 
             result = {
                 'type': 3,
