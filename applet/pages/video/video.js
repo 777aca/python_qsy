@@ -43,7 +43,7 @@ Page({
     switch (action) {
       case "copyTitle":
         this.copyToClipboard(
-          `${this.data.resultData.title}${this.data.resultData.desc}`,
+          `${this.data.resultData.title}`,
           "复制成功"
         );
         break;
