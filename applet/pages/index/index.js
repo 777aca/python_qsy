@@ -161,4 +161,7 @@ Page({
       icon: "none",
     });
   },
+  onShareAppMessage() {
+
+  }
 });

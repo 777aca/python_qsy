@@ -140,4 +140,7 @@ Page({
       icon: "none",
     });
   },
+  onShareAppMessage() {
+
+  }
 });
