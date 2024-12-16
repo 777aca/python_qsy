@@ -23,6 +23,14 @@ Page({
     });
   },
 
+  previewImage: function (e) {
+    const current = e.target.dataset.src; // 获取当前点击的图片URL
+    wx.previewImage({
+      current: current, // 当前显示的图片链接
+      urls: this.data.resultData.resourcePath, // 需要预览的图片http链接列表
+    });
+  },
+
   // 处理勾选框变化
   onCheckboxChange: function (e) {
     const selectedValues = e.detail.value;
@@ -42,10 +50,7 @@ Page({
     const action = e.currentTarget.dataset.action;
     switch (action) {
       case "copyTitle":
-        this.copyToClipboard(
-          `${this.data.resultData.title}`,
-          "复制成功"
-        );
+        this.copyToClipboard(`${this.data.resultData.title}`, "复制成功");
         break;
       case "downloadVideo":
         this.downloadVideo(this.data.resultData.video);
@@ -61,6 +66,7 @@ Page({
     }
   },
 
+  // 下载选中的视频
   downloadSelectedVideos: function () {
     const selectedVideos = this.data.selectedVideos;
     if (!selectedVideos.size) {
@@ -71,25 +77,47 @@ Page({
       return;
     }
 
-    // 这里可以进行下载操作
+    // 显示加载中的提示
+    wx.showLoading({
+      title: "正在下载...",
+      mask: true, // 遮罩层
+    });
+
     selectedVideos.forEach((videoUrl) => {
-      wx.downloadFile({
-        url: videoUrl,
+      wx.request({
+        url: "https://777aca.cn/download_video", // 你的代理接口
+        method: "POST",
+        data: {
+          video_url: videoUrl,
+        },
         success(res) {
           console.log(res);
           if (res.statusCode === 200) {
-            // 调用 saveVideoToPhotosAlbum 直接保存到相册
-            wx.saveVideoToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success() {
-                wx.showToast({
-                  title: "视频保存成功",
-                  icon: "success",
+            // 直接保存视频
+            const filePath = res.data.new_video_url;
+            wx.downloadFile({
+              url: filePath,
+              success(res) {
+                wx.saveVideoToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success() {
+                    wx.hideLoading(); // 隐藏加载提示
+                    wx.showToast({
+                      title: "视频保存成功",
+                      icon: "success",
+                    });
+                  },
+                  fail() {
+                    wx.showToast({
+                      title: "视频保存失败",
+                      icon: "none",
+                    });
+                  },
                 });
               },
               fail() {
                 wx.showToast({
-                  title: "视频保存失败",
+                  title: "下载文件失败",
                   icon: "none",
                 });
               },
@@ -111,60 +139,75 @@ Page({
     });
   },
 
-  // 保存文件到相册
-  saveFile: function (filePath, saveMethod, successMessage) {
-    wx[saveMethod]({
-      filePath,
-      success: () =>
-        wx.showToast({
-          title: successMessage,
-          icon: "success",
-        }),
-      fail: () =>
-        wx.showToast({
-          title: "保存到相册失败",
-          icon: "none",
-        }),
-    });
-  },
-
-  // 判断 URL 是否在合法列表
-  isUrlInDownloadList: function (url) {
-    return this.data.downloadList.some((validUrl) => url.includes(validUrl));
-  },
-  previewImage: function (e) {
-    const current = e.target.dataset.src; // 获取当前点击的图片URL
-    wx.previewImage({
-      current: current, // 当前显示的图片链接
-      urls: this.data.resultData.resourcePath, // 需要预览的图片http链接列表
-    });
-  },
   // 下载视频
   downloadVideo: function (url) {
-    wx.downloadFile({
-      url,
+    wx.showLoading({
+      title: "正在下载...",
+      mask: true, // 遮罩层
+    });
+
+    wx.request({
+      url: "https://777aca.cn/download_video", // 你的代理接口
+      method: "POST",
+      data: {
+        video_url: url,
+      },
       success(res) {
+        console.log(res);
         if (res.statusCode === 200) {
-          wx.saveVideoToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success() {
-              wx.showToast({
-                title: "视频已保存",
+          // 直接保存视频
+          const filePath = res.data.new_video_url;
+          wx.downloadFile({
+            url: filePath,
+            success(res) {
+              wx.saveVideoToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success() {
+                  wx.hideLoading(); // 隐藏加载提示
+                  wx.showToast({
+                    title: "视频保存成功",
+                    icon: "success",
+                  });
+                },
+                fail() {
+                  wx.showToast({
+                    title: "视频保存失败",
+                    icon: "none",
+                  });
+                },
               });
             },
             fail() {
               wx.showToast({
-                title: "保存失败",
+                title: "下载文件失败",
                 icon: "none",
               });
             },
           });
+        } else {
+          wx.showToast({
+            title: "下载失败",
+            icon: "none",
+          });
         }
+      },
+      fail() {
+        wx.showToast({
+          title: "下载失败",
+          icon: "none",
+        });
       },
     });
   },
+
+  // 下载所有图片
   downloadAllPics: function () {
     const imageUrls = this.data.resultData.resourcePath;
+    wx.showLoading({
+      title: "正在下载图片...",
+      mask: true,
+    });
+
     imageUrls.forEach((url) => {
       wx.downloadFile({
         url: url,
@@ -173,6 +216,7 @@ Page({
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
               success() {
+                wx.hideLoading(); // 隐藏加载提示
                 wx.showToast({
                   title: "图片已保存",
                 });
