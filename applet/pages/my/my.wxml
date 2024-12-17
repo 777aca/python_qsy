@@ -1,13 +1,16 @@
 <view class="center">
   <view class="center_box_bg">
-    <!-- 菜单 -->
+    <!-- 显示用户信息 -->
+    <!-- 微信授权登录 -->
+    <view wx:if="{{!nickName}}">
+      <button class="cu-btn bg-blue lg" bindtap="authorizeLogin">微信授权登录</button>
+    </view>
+    <view wx:if="{{nickName}}" class="user">
+      <image src="{{avatarUrl}}" mode="aspectFill" class="avatar"></image>
+      <text>{{nickName||'-'}}</text>
+    </view>
     <view class="center_menu">
-      <view 
-        class="menu_item" 
-        bindtap="navigateToPage" 
-        wx:for="{{menus}}" 
-        wx:key="index" 
-        data-key="{{item.key}}">
+      <view class="menu_item" bindtap="navigateToPage" wx:for="{{menus}}" wx:key="index" data-key="{{item.key}}">
         <image mode="aspectFill" src="{{item.icon}}"></image>
         <text>{{item.name}}</text>
       </view>
@@ -17,10 +20,6 @@
     <view class="flex flex-direction" style="margin:10px 0;">
       <button class="cu-btn bg-blue lg" openType="contact">在线客服</button>
     </view>
-  </view>
 
-  <!-- 广告 -->
-  <view wx:if="{{showAd}}">
-    <ad adTheme="white" adType="video" unitId="{{myAd}}"></ad>
   </view>
 </view>

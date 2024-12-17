@@ -27,7 +27,7 @@ App({
       shareTitle: "抖音、快手、皮皮虾短视频一键去水印,去水印还能这么简单",
       prizeImg: "",
       prizeType: 0,
-      nickName: "用户",
+      nickName: "",
       headUrl: "",
       watchTimes: 1,
       autoDownload: false,

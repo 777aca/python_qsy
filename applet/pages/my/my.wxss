@@ -1,6 +1,19 @@
 page {
   height: 100%;
 }
+.user{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user .avatar{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
 
 .profily,
 .profily_header {
@@ -24,6 +37,7 @@ page {
 .center_box_bg {
   background: #f9f9f9;
   position: relative;
+  display: flex;
 }
 
 .center_box_bg .profily {

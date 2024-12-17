@@ -12,7 +12,7 @@ class DouYinPlatform:
     def parse_video(self):
         # 创建请求
         headers = {
-            "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
         }
         try:
             response = requests.get(self.link, headers=headers)
@@ -22,6 +22,7 @@ class DouYinPlatform:
 
         # 使用 BeautifulSoup 解析页面
         soup = BeautifulSoup(response.text, "html.parser")
+        print(soup)
         json_data = ""
         # 查找包含 window._ROUTER_DATA 的 <script> 标签
 
