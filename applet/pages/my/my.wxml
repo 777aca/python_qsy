@@ -2,7 +2,7 @@
   <view class="center_box_bg">
     <!-- 显示用户信息 -->
     <!-- 微信授权登录 -->
-    <view wx:if="{{!nickName}}">
+    <view wx:if="{{!nickName}}" class="login-btn">
       <button class="cu-btn bg-blue lg" bindtap="authorizeLogin">微信授权登录</button>
     </view>
     <view wx:if="{{nickName}}" class="user">

@@ -15,6 +15,12 @@ page {
   margin-bottom: 30rpx;
 }
 
+.login-btn{
+  width: 100%;
+ text-align: center;
+ margin: 30rpx 0;
+}
+
 .profily,
 .profily_header {
   border-radius: 8px;
@@ -37,7 +43,6 @@ page {
 .center_box_bg {
   background: #f9f9f9;
   position: relative;
-  display: flex;
 }
 
 .center_box_bg .profily {
