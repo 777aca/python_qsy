@@ -3,7 +3,7 @@ from dy import DouYinPlatform
 from xhs import RedBookPlatform
 from xhs_live import RedBookLivePlatform
 from download import download_video
-from login import save_user_to_db,get_wechat_user_info
+from login import save_user_to_db,get_wechat_user_info,fetch_user_info
 import logging
 
 
@@ -43,7 +43,7 @@ def add_cache_control_headers(response):
 
 
 # 解析视频请求处理
-@app.route('/parse_video', methods=['POST'])
+@app.route('/api/parse_video', methods=['POST'])
 def parse_video():
     try:
         # 获取请求中的 JSON 数据
@@ -81,7 +81,7 @@ def parse_video():
         return jsonify({"error": "请求处理失败", "details": str(e)}), 500
 
 # 下载视频请求处理
-@app.route('/download_video', methods=['POST'])
+@app.route('/api/download_video', methods=['POST'])
 def download_video_endpoint():
     """
     接收视频 URL，并返回新的视频 URL
@@ -114,6 +114,59 @@ def login():
         return jsonify({'openid': openid, 'session_key': session_key})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/save_user_info', methods=['POST'])
+def save_user_info():
+    """保存用户的昵称和头像等信息"""
+    # 获取请求体中的 JSON 数据
+    data = request.json
+
+    # 打印请求体数据进行调试
+    print("Received data:", data)
+
+    # 获取必填的 openid 字段
+    openid = data.get('openid')
+    
+    # 如果 openid 不存在，返回错误
+    if not openid:
+        return jsonify({'error': 'openid is required'}), 400
+
+    # 获取可选字段
+    session_key = data.get('session_key')  # 可选字段
+    nickname = data.get('nickname')  # 可选字段
+    avatar_url = data.get('avatar_url')  # 可选字段
+
+    try:
+        # 保存用户信息到数据库
+        save_user_to_db(openid, session_key, nickname, avatar_url)
+        return jsonify({'message': '修改成功'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+    
+
+@app.route('/api/get_user_info', methods=['POST'])
+def get_user_info():
+    """获取用户的昵称和头像等信息"""
+    data = request.json
+    openid = data.get('openid')
+
+    if not openid:
+        return jsonify({'error': 'Missing required parameters'}), 400
+
+    try:
+        # 调用 fetch_user_info 获取用户信息
+        user_info = fetch_user_info(openid)
+        
+        # 如果用户不存在
+        if not user_info:
+            return jsonify({'error': 'User not found'}), 404
+        
+        return jsonify(user_info), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+        
 
 
 

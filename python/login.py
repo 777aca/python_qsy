@@ -28,22 +28,52 @@ def get_wechat_user_info(code):
     
     return data['openid'], data['session_key']
 
-def save_user_to_db(openid, session_key):
+def save_user_to_db(openid, session_key, nickname=None, avatar_url=None):
     """将用户信息存入数据库"""
     conn = mysql.connector.connect(**DB_CONFIG)
     cursor = conn.cursor()
-    
+
     # 检查用户是否已存在
     cursor.execute("SELECT * FROM users WHERE openid = %s", (openid,))
     existing_user = cursor.fetchone()
 
     if existing_user:
-        # 用户已存在，更新session_key
-        cursor.execute("UPDATE users SET session_key = %s WHERE openid = %s", (session_key, openid))
+        # 用户已存在，更新 session_key 和其他信息
+        if session_key:
+            cursor.execute("UPDATE users SET session_key = %s, nickname = %s, avatar_url = %s WHERE openid = %s", 
+                           (session_key, nickname, avatar_url, openid))
+        else:
+            cursor.execute("UPDATE users SET nickname = %s, avatar_url = %s WHERE openid = %s", 
+                           (nickname, avatar_url, openid))
     else:
         # 新用户，插入数据
-        cursor.execute("INSERT INTO users (openid, session_key) VALUES (%s, %s)", (openid, session_key))
-
+        cursor.execute("INSERT INTO users (openid, session_key, nickname, avatar_url) VALUES (%s, %s, %s, %s)", 
+                       (openid, session_key if session_key else None, nickname, avatar_url))
+    
     conn.commit()
     cursor.close()
     conn.close()
+
+
+
+
+def fetch_user_info(openid):
+    """根据 openid 从数据库获取用户信息"""
+    conn = mysql.connector.connect(**DB_CONFIG)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT openid, nickname, avatar_url FROM users WHERE openid = %s", (openid,))
+    user_info = cursor.fetchone()
+    
+    cursor.close()
+    conn.close()
+
+    # 如果找到了用户信息，返回字典格式的数据
+    if user_info:
+        return {
+            'openid': user_info[0],
+            'nickname': user_info[1],
+            'avatar_url': user_info[2]
+        }
+    return None  # 用户不存在
+

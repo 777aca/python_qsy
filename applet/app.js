@@ -3,7 +3,7 @@ App({
   initBaseData() {
     const defaultGlobalData = {
       userInfo: null,
-      reqUrl: "https://777aca.cn/",
+      reqUrl: "https://777aca.cn",
       uid: 0,
       isFirstLogin: false,
       showVideoCourse: false,

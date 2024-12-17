@@ -11,13 +11,14 @@ const MENU_KEYS = {
 Page({
   data: {
     nickName: "",
-    avatarUrl: "",
+    avatarUrl: "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
     author: "",
     autoCopy: false,
     autoDownload: false,
     myAd: "",
     uid: "",
     globalColor: "",
+    openid: "",
     menus: [{
         name: "联系作者",
         icon: "../../images/concat.png",
@@ -35,10 +36,6 @@ Page({
     this.initGlobalData();
   },
 
-  onShow() {
-    this.initGlobalData(); // 保持数据实时同步
-  },
-
   initGlobalData() {
     const {
       globalData
@@ -51,15 +48,21 @@ Page({
       autoDownload: globalData.autoDownload,
       myAd: globalData.myAd,
       globalColor: globalData.globalColor,
+      openid: wx.getStorageSync("openid"),
+      reqUrl: getApp().globalData.reqUrl,
     });
+
+    if (this.data.openid) {
+      this.getUser()
+    }
   },
 
-  // 微信授权登录
   // 微信授权登录
   authorizeLogin() {
     // 获取用户信息
     this.getUserProfile()
       .then(userInfo => {
+        console.log(userInfo);
         // 获取到用户信息后，发起登录请求
         return this.wxLogin()
           .then(code => this.sendLoginRequest(code, userInfo));
@@ -79,7 +82,6 @@ Page({
       wx.getUserProfile({
         desc: '获取用户信息', // 用于提示用户授权的用途
         success: (res) => {
-          console.log('获取用户信息成功', res);
           resolve(res.userInfo); // 通过 Promise 返回用户信息
         },
         fail: (err) => {
@@ -107,29 +109,52 @@ Page({
       });
     });
   },
+  // 获取用户信息
+  getUser() {
+    wx.request({
+      url: `${this.data.reqUrl}/api/get_user_info`, // 后端登录接口
+      method: 'POST',
+      data: {
+        openid: this.data.openid,
+      },
+      success: (response) => {
+        if (response.statusCode == 200) {
+          this.setData({
+            avatarUrl: response.data.avatar_url,
+            nickName: response.data.nickname,
+          })
+        } else {
+          wx.showToast({
+            title: '查询失败',
+            icon: 'none',
+          });
+        }
+      },
+      fail: (error) => {
+        wx.showToast({
+          title: '查询失败',
+          icon: 'none',
+        });
+      }
+    });
+  },
 
   // 发送登录请求到后端
   sendLoginRequest(code, userInfo) {
     wx.request({
-      url: 'https://777aca.cn/api/login', // 后端登录接口
+      url: `${this.data.reqUrl}/api/login`, // 后端登录接口
       method: 'POST',
       data: {
         code: code
       },
       success: (response) => {
+        console.log(response);
         if (response.data.openid && response.data.session_key) {
+          this.saveUserInfo(userInfo.avatarUrl, userInfo.nickName,response.data.openid)
           wx.setStorageSync('openid', response.data.openid);
-          console.log('用户登录成功', response.data);
-          // 保存用户信息到全局
-          const app = getApp();
-          app.globalData.nickName = userInfo.nickName;
-          app.globalData.headUrl = userInfo.avatarUrl;
-
-          // 更新页面数据
           this.setData({
-            nickName: userInfo.nickName,
-            avatarUrl: userInfo.avatarUrl,
-          });
+            openid:response.data.openid
+          })
         } else {
           wx.showToast({
             title: '登录失败，返回数据不完整',
@@ -146,8 +171,50 @@ Page({
       }
     });
   },
+  onChooseAvatar(e) {
+    const {
+      avatarUrl
+    } = e.detail
+    this.saveUserInfo(avatarUrl)
 
-
+  },
+  saveUserInfo(avatar_url, nickname,openid) {
+    wx.request({
+      url: `${this.data.reqUrl}/api/save_user_info`, // 后端登录接口
+      method: 'POST',
+      data: {
+        openid:openid?openid:this.data.openid,
+        avatar_url,
+        nickname
+      },
+      success: (response) => {
+        console.log(response);
+        if (response.statusCode == 200) {
+          // 更新页面数据
+          this.setData({
+            nickName: response.data.nickname,
+            avatarUrl: response.data.avatar_url,
+          });
+          this.getUser()
+          wx.showToast({
+            // title: '修改成功',
+            icon: 'none',
+          });
+        } else {
+          wx.showToast({
+            title: '修改失败',
+            icon: 'none',
+          });
+        }
+      },
+      fail: (error) => {
+        wx.showToast({
+          title: '修改失败',
+          icon: 'none',
+        });
+      }
+    });
+  },
   onShareTimeline() {
     const {
       globalData

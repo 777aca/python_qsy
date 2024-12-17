@@ -124,7 +124,7 @@ Page({
     });
 
     wx.request({
-      url: `${this.data.reqUrl}parse_video`,
+      url: `${this.data.reqUrl}/api/parse_video`,
       method: "POST",
       data: {
         link

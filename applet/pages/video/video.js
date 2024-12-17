@@ -20,6 +20,7 @@ Page({
       resultData,
       hasWatchedAd: !!hasWatchedAd,
       adWatchedTimestamp: adWatchedTimestamp || null,
+      reqUrl: getApp().globalData.reqUrl,
     });
   },
 
@@ -85,7 +86,7 @@ Page({
 
     selectedVideos.forEach((videoUrl) => {
       wx.request({
-        url: "https://777aca.cn/download_video", // 你的代理接口
+        url: `${this.data.reqUrl}/api/download_video`, // 你的代理接口
         method: "POST",
         data: {
           video_url: videoUrl,
@@ -147,7 +148,7 @@ Page({
     });
 
     wx.request({
-      url: "https://777aca.cn/download_video", // 你的代理接口
+      url: "https://777aca.cn/api/download_video", // 你的代理接口
       method: "POST",
       data: {
         video_url: url,

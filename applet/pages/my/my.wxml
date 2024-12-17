@@ -2,13 +2,15 @@
   <view class="center_box_bg">
     <!-- 显示用户信息 -->
     <!-- 微信授权登录 -->
-    <view wx:if="{{!nickName}}" class="login-btn">
+    <view wx:if="{{!openid}}" class="login-btn">
       <button class="cu-btn bg-blue lg" bindtap="authorizeLogin">微信授权登录</button>
     </view>
-    <view wx:if="{{nickName}}" class="user">
-      <image src="{{avatarUrl}}" mode="aspectFill" class="avatar"></image>
+
+    <button wx:if="{{openid}}" class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" wx:if="{{openid}}" class="user">
+      <image class="avatar" src="{{avatarUrl}}"></image>
       <text>{{nickName||'-'}}</text>
-    </view>
+    </button>
+
     <view class="center_menu">
       <view class="menu_item" bindtap="navigateToPage" wx:for="{{menus}}" wx:key="index" data-key="{{item.key}}">
         <image mode="aspectFill" src="{{item.icon}}"></image>
