@@ -3,9 +3,11 @@
 }
 
 .result-title{
+  display: inline-block;
   margin-bottom: 10px;
 }
 .result-desc{
+  display: inline-block;
   margin-bottom: 10px;
 }
 
@@ -34,7 +36,6 @@
 .video-item {
   position: relative;  
   width: 48%;  
-  margin-bottom: 10px;
 }
 
 .video-container {

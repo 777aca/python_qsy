@@ -41,7 +41,7 @@
           </view>
           <image alt class="headImg _img" src="{{$root.m1}}"></image>
         </view>
-        <view class="cu-tag badge" style="top: 0px; right: 0px;">hot</view>
+        <view class="cu-tag badge" style="top: 0px; right: 0px;">热门</view>
       </view>
     </view>
   </view>
