@@ -1,28 +1,33 @@
+const app = getApp();
+
 Page({
   data: {
     inputUrl: "",
-    hasWatchedAd: false,
     showPopup: false,
-    popupAnimation: {},
-    interstitialAd: null,
-    globalColor: getApp().globalData.globalColor,
-    appName: getApp().globalData.parseTitle,
+    globalColor: "",
     showTip: true,
-    banner: getApp().globalData.banner,
-    prizeType: getApp().globalData.prizeType,
-    reqUrl: getApp().globalData.reqUrl,
+    banner: "",
+    reqUrl: "",
+  },
+
+  onShow() {
   },
 
   onLoad: function () {
-    const hasWatchedAd = wx.getStorageSync("hasWatchedAd");
     const showTip = wx.getStorageSync("autoTip").length <= 5;
-
     this.setData({
-      hasWatchedAd: !!hasWatchedAd,
       showTip,
     });
-
     setTimeout(() => this.closeNotice(), 10000);
+    const {
+      globalData,
+    } = app;
+    console.log(globalData);
+    this.setData({
+      banner: globalData.banner,
+      globalColor: globalData.globalColor,
+      reqUrl: globalData.reqUrl,
+    });
   },
 
   closeNotice: function () {
@@ -34,10 +39,10 @@ Page({
 
   // 更新 navigateToPage 方法
   navigateToPage: function (e) {
-    const pageType = e.currentTarget.dataset.pageType; 
+    const pageType = e.currentTarget.dataset.pageType;
     const pageMap = {
       1: "/pages/about/about",
-      4: "/pages/live/live", 
+      4: "/pages/live/live",
     };
 
     const url = pageMap[pageType];

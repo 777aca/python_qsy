@@ -15,37 +15,37 @@
   <view class="cu-form-group solid-bottom cu-bar newInputWrap">
     <input bindinput="onInputUrl" class="nowInput" maxlength="-1" name="input" placeholder="请粘贴链接" value="{{inputUrl}}"></input>
     <button bindtap="onParse" class="{{['cu-btn', 'shadow', 'mr5', globalColor]}}">去水印</button>
-    <button bindtap="onPasteAndParse" class="{{['cu-btn', 'shadow', globalColor]}}" wx:if="{{prizeType == 0}}">粘贴</button>
+    <button bindtap="onPasteAndParse" class="{{['cu-btn', 'shadow', globalColor]}}">粘贴</button>
   </view>
 
   <!-- 常见问题和小红书live图 -->
-    <view class="grid col-2 width98">
+  <view class="grid col-2 width98">
     <view class="pic-padding">
-        <view bindtap="navigateToPage" data-page-type="1" class="{{['radius', '', 'shadow-blur', globalColor]}}">
+      <view bindtap="navigateToPage" data-page-type="1" class="{{['radius', '', 'shadow-blur', globalColor]}}">
         <view class="nowBody">
-            <view class="headWord">
+          <view class="headWord">
             <text class="firstHead">常见问题</text>
             <view>使用问题</view>
-            </view>
-            <image alt class="headImg _img" src="{{$root.m0}}"></image>
+          </view>
+          <image alt class="headImg _img" src="{{$root.m0}}"></image>
         </view>
-        </view>
+      </view>
     </view>
 
     <view class="pic-padding">
-        <view bindtap="navigateToPage" data-page-type="4" class="{{['radius', '', 'shadow-blur', globalColor]}}">
+      <view bindtap="navigateToPage" data-page-type="4" class="{{['radius', '', 'shadow-blur', globalColor]}}">
         <view class="nowBody">
-            <view class="headWord">
+          <view class="headWord">
             <text class="firstHead">小红书live图</text>
             <view>去水印</view>
-            </view>
-            <image alt class="headImg _img" src="{{$root.m1}}"></image>
+          </view>
+          <image alt class="headImg _img" src="{{$root.m1}}"></image>
         </view>
         <view class="cu-tag badge" style="top: 0px; right: 0px;">hot</view>
-        </view>
+      </view>
     </view>
-    </view>
+  </view>
 
   <!-- copyright -->
-  <text class="copyright" >素材版权归平台及作者所有</text>
+  <text class="copyright">素材版权归平台及作者所有</text>
 </view>

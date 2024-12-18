@@ -131,14 +131,11 @@ def save_user_info():
     if not openid:
         return jsonify({'error': 'openid is required'}), 400
 
-    # 获取可选字段
-    session_key = data.get('session_key')  # 可选字段
     nickname = data.get('nickname')  # 可选字段
-    avatar_url = data.get('avatar_url')  # 可选字段
 
     try:
         # 保存用户信息到数据库
-        save_user_to_db(openid, session_key, nickname, avatar_url)
+        save_user_to_db(openid,nickname)
         return jsonify({'message': '修改成功'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
