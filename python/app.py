@@ -11,16 +11,19 @@ import datetime
 from utils.auth  import token_required
 import os
 from dotenv import load_dotenv
+from flask_limiter import Limiter
+
 
 # 加载 .env 文件中的环境变量
 load_dotenv()
-# secret_key = str(uuid.uuid4())  # 生成一个随机 UUID 字符串
 
 secret_key = os.getenv('FLASK_SECRET_KEY', str(uuid.uuid4()))
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = secret_key
+
+limiter = Limiter(app)
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -57,6 +60,7 @@ def add_cache_control_headers(response):
 
 # 解析视频请求处理
 @app.route('/api/parse_video', methods=['POST'])
+@limiter.limit('50 per minute') 
 @token_required  # 确保访问此接口时必须提供有效的 token
 def parse_video():
     try:
@@ -96,6 +100,7 @@ def parse_video():
 
 # 下载视频请求处理
 @app.route('/api/download_video', methods=['POST'])
+@limiter.limit('50 per minute') 
 @token_required  # 确保访问此接口时必须提供有效的 token
 def download_video_endpoint():
     """
@@ -117,6 +122,7 @@ def download_video_endpoint():
 
 # 登录
 @app.route('/api/login', methods=['POST'])
+@limiter.limit('5 per minute')
 def login():
     """处理微信小程序登录请求"""
     code = request.json.get('code')
@@ -146,6 +152,7 @@ def login():
 
     
 @app.route('/api/save_user_info', methods=['POST'])
+@limiter.limit('50 per minute') 
 @token_required  # 确保访问此接口时必须提供有效的 token
 def save_user_info():
     """保存用户的昵称和头像等信息"""
@@ -175,6 +182,7 @@ def save_user_info():
     
 
 @app.route('/api/get_user_info', methods=['POST'])
+@limiter.limit('50 per minute') 
 @token_required  # 确保访问此接口时必须提供有效的 token
 def get_user_info():
     """获取用户的昵称和头像等信息"""

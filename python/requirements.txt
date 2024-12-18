@@ -4,3 +4,4 @@ beautifulsoup4
 mysql-connector
 pyjwt
 python-dotenv
+flask_limiter
