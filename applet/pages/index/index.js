@@ -131,6 +131,9 @@ Page({
     wx.request({
       url: `${this.data.reqUrl}/api/parse_video`,
       method: "POST",
+      header:{
+        'Authorization': `Bearer ${wx.getStorageSync("token")}`
+      },
       data: {
         link
       },

@@ -4,7 +4,7 @@
     <view wx:if="{{openid}}" class="avatar-wrapper"  wx:if="{{openid}}" class="user">
       <image class="avatar" src="{{avatarUrl}}"></image>
       <text selectable="{{true}}" user-select='{{true}}'>{{nickName||'-'}}</text>
-      <text selectable="{{true}}" user-select='{{true}}'>Uid：{{uid||'-'}}</text>
+      <text selectable="{{true}}" user-select='{{true}}'>uid：{{uid||'-'}}</text>
     </view>
 
     <view class="center_menu">

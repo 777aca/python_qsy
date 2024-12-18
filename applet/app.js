@@ -66,6 +66,7 @@ App({
     return new Promise((resolve, reject) => {
       wx.login({
         success: (res) => {
+          console.log(res);
           if (res.code) {
             resolve(res.code); // 返回登录的 code
           } else {
@@ -91,6 +92,7 @@ App({
         success: (response) => {
           if (response.data && response.data.openid) {
             wx.setStorageSync('openid', response.data.openid);
+            wx.setStorageSync('token', response.data.token);
             this.globalData.openid = response.data.openid; // 更新 globalData 中的 openid
             this.getUser();
             resolve(response);
@@ -142,6 +144,9 @@ App({
       wx.request({
         url: `https://777aca.cn/api/get_user_info`, // 后端接口
         method: 'POST',
+        header:{
+          'Authorization': `Bearer ${wx.getStorageSync("token")}`
+        },
         data: {
           openid
         },

@@ -88,6 +88,9 @@ Page({
       wx.request({
         url: `${this.data.reqUrl}/api/download_video`, // 你的代理接口
         method: "POST",
+        header:{
+          'Authorization': `Bearer ${wx.getStorageSync("token")}`
+        },
         data: {
           video_url: videoUrl,
         },
@@ -150,6 +153,9 @@ Page({
     wx.request({
       url: "https://777aca.cn/api/download_video", // 你的代理接口
       method: "POST",
+      header:{
+        'Authorization': `Bearer ${wx.getStorageSync("token")}`
+      },
       data: {
         video_url: url,
       },

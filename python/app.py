@@ -5,9 +5,22 @@ from xhs_live import RedBookLivePlatform
 from download import download_video
 from login import save_user_to_db,get_wechat_user_info,fetch_user_info
 import logging
+import uuid
+import jwt
+import datetime
+from utils.auth  import token_required
+import os
+from dotenv import load_dotenv
 
+# 加载 .env 文件中的环境变量
+load_dotenv()
+# secret_key = str(uuid.uuid4())  # 生成一个随机 UUID 字符串
+
+secret_key = os.getenv('FLASK_SECRET_KEY', str(uuid.uuid4()))
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = secret_key
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -44,6 +57,7 @@ def add_cache_control_headers(response):
 
 # 解析视频请求处理
 @app.route('/api/parse_video', methods=['POST'])
+@token_required  # 确保访问此接口时必须提供有效的 token
 def parse_video():
     try:
         # 获取请求中的 JSON 数据
@@ -82,6 +96,7 @@ def parse_video():
 
 # 下载视频请求处理
 @app.route('/api/download_video', methods=['POST'])
+@token_required  # 确保访问此接口时必须提供有效的 token
 def download_video_endpoint():
     """
     接收视频 URL，并返回新的视频 URL
@@ -111,11 +126,27 @@ def login():
     try:
         openid, session_key = get_wechat_user_info(code)
         save_user_to_db(openid, session_key)
-        return jsonify({'openid': openid, 'session_key': session_key})
+
+        # 假设 openid 是唯一标识符，我们将其作为载荷的一部分
+        payload = {
+            'openid': openid,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # 设置过期时间
+        }
+
+        # 生成 JWT
+        token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+
+        # 将字节类型的 token 转换为字符串
+        token = token.decode('utf-8')  # 将 bytes 转为 string
+
+        return jsonify({'openid': openid, 'session_key': session_key, "token": token}), 200
+    
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 @app.route('/api/save_user_info', methods=['POST'])
+@token_required  # 确保访问此接口时必须提供有效的 token
 def save_user_info():
     """保存用户的昵称和头像等信息"""
     # 获取请求体中的 JSON 数据
@@ -144,6 +175,7 @@ def save_user_info():
     
 
 @app.route('/api/get_user_info', methods=['POST'])
+@token_required  # 确保访问此接口时必须提供有效的 token
 def get_user_info():
     """获取用户的昵称和头像等信息"""
     data = request.json

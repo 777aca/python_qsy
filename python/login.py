@@ -9,6 +9,7 @@ app = Flask(__name__)
 APP_ID = 'wx8cb69c441578cafc'
 APP_SECRET = '8eece665957a97f4730e36e2591e11ae'
 
+
 # MySQL数据库配置
 DB_CONFIG = {
     'host': 'localhost',
