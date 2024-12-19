@@ -1,3 +1,11 @@
+const {
+  loginAndGetToken,
+  setToken,
+  setOpenid,
+  getOpenid,
+  request,
+} = require("./utils/util.js");
+
 App({
   // 全局数据
   globalData: {
@@ -12,10 +20,12 @@ App({
     notice: "有问题请及时联系作者进行反馈",
     prizeContent: "赞赏下作者 下载提速",
     prizePath: "pages/apps/largess/detail?id=fmpt2URXZgCgPc1CLmE7uw%3D%3D",
-    banner: [{
-      imgUrl: "https://777aca.cn/wp-content/uploads/2024/12/mine_bg_3x.png",
-      type: 0,
-    }],
+    banner: [
+      {
+        imgUrl: "https://777aca.cn/wp-content/uploads/2024/12/mine_bg_3x.png",
+        type: 0,
+      },
+    ],
     videoAdTimes: 3,
     batchAnalyse: 2,
     shareImg: "",
@@ -23,7 +33,8 @@ App({
     prizeImg: "",
     prizeType: 0,
     nickName: "",
-    headUrl: "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
+    headUrl:
+      "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
     watchTimes: 1,
     autoDownload: false,
     adTip: "还没有看完广告 一天仅需看一次广告 24小时免除广告",
@@ -52,120 +63,70 @@ App({
 
   // 用户注册逻辑
   async registerUser() {
-    try {
-      // 先进行微信登录，然后调用登录请求
-      const code = await this.wxLogin();
-      await this.sendLoginRequest(code);
-    } catch (err) {
-      this.showError('微信登录失败，请重试');
-    }
-  },
-
-  // 微信登录
-  wxLogin() {
-    return new Promise((resolve, reject) => {
-      wx.login({
-        success: (res) => {
-          console.log(res);
-          if (res.code) {
-            resolve(res.code); // 返回登录的 code
-          } else {
-            reject('未获取到 code');
-          }
-        },
-        fail: (err) => {
-          reject('微信登录失败：' + err.errMsg);
-        }
+    loginAndGetToken()
+      .then((response) => {
+        setToken(response.data.token);
+        setOpenid(response.data.openid);
+        this.getUser();
+      })
+      .catch((error) => {
+        console.error("登录失败:", error);
+        wx.showToast({
+          title: "登录失败",
+          icon: "none",
+        });
       });
-    });
-  },
-
-  // 发送登录请求到后端
-  sendLoginRequest(code) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: `https://777aca.cn/api/login`, // 后端登录接口
-        method: 'POST',
-        data: {
-          code: code
-        },
-        success: (response) => {
-          if (response.data && response.data.openid) {
-            wx.setStorageSync('openid', response.data.openid);
-            wx.setStorageSync('token', response.data.token);
-            this.globalData.openid = response.data.openid; // 更新 globalData 中的 openid
-            this.getUser();
-            resolve(response);
-          } else {
-            this.showError('登录失败，返回数据不完整');
-            reject('返回数据不完整');
-          }
-        },
-        fail: (error) => {
-          this.showError('登录请求失败，请重试');
-          reject(error);
-        }
-      });
-    });
   },
 
   // 获取用户信息
   async getUser() {
-    const openid = wx.getStorageSync("openid");
-    if (!openid) {
-      this.showError('未找到openid，请重新登录');
-      return;
-    }
     wx.showLoading({
-      title: "加载中..."
+      title: "加载中...",
     });
 
-    const response = await this.fetchUserInfo(openid);
-    if (response.statusCode == 200 && response.data) {
-      const {
-        nickname,
-        uid,
-        created_at
-      } = response.data;
-      this.globalData.nickName = nickname;
-      this.globalData.uid = uid;
-      this.globalData.created_at = created_at;
-      this.globalData.openid = openid;
-      wx.hideLoading()
-    } else {
-      this.showError('查询失败');
-      wx.hideLoading()
+    try {
+      const response = await this.fetchUserInfo();
+      console.log(response);
+      if (response.statusCode == 200 && response.data) {
+        const { nickname, uid, created_at } = response.data;
+        this.globalData.nickName = nickname;
+        this.globalData.uid = uid;
+        this.globalData.created_at = created_at;
+        wx.hideLoading();
+      } else {
+        this.showError("查询失败");
+        wx.hideLoading();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      wx.hideLoading();
     }
   },
 
   // 发起获取用户信息请求
-  fetchUserInfo(openid) {
+  fetchUserInfo() {
     return new Promise((resolve, reject) => {
-      wx.request({
+      request({
         url: `https://777aca.cn/api/get_user_info`, // 后端接口
-        method: 'POST',
-        header: {
-          'Authorization': `Bearer ${wx.getStorageSync("token")}`
-        },
-        data: {
-          openid
-        },
-        success: (response) => {
-          resolve(response); // 成功时返回
-        },
-        fail: (error) => {
-          reject(error); // 请求失败时进入 reject
-        }
-      });
+        method: "POST",
+      })
+        .then((response) => {
+          resolve(response);
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   },
-
 
   // 统一显示错误提示
   showError(message) {
     wx.showToast({
       title: message,
-      icon: 'none',
+      icon: "none",
     });
   },
 
@@ -173,15 +134,17 @@ App({
   showSuccess(message) {
     wx.showToast({
       title: message,
-      icon: 'success',
+      icon: "success",
     });
   },
 
   // App生命周期事件
   onLaunch() {
-    this.autoUpdate()
-    const openid = wx.getStorageSync("openid");
-    if (openid) {
+    console.log("App Launch");
+
+    this.globalData.openid = getOpenid();
+    this.autoUpdate();
+    if (getOpenid()) {
       this.getUser(); // 登录后调用获取用户信息
     } else {
       this.registerUser(); // 如果没有openid则进行注册
@@ -189,71 +152,73 @@ App({
   },
 
   autoUpdate() {
-    var self = this
+    var self = this;
     // 获取小程序更新机制兼容
-    if (wx.canIUse('getUpdateManager')) {
-      const updateManager = wx.getUpdateManager()
+    if (wx.canIUse("getUpdateManager")) {
+      const updateManager = wx.getUpdateManager();
       //1. 检查小程序是否有新版本发布
-      updateManager.onCheckForUpdate(function(res) {
+      updateManager.onCheckForUpdate(function (res) {
         // 请求完新版本信息的回调
         if (res.hasUpdate) {
           //检测到新版本，需要更新，给出提示
           wx.showModal({
-            title: '更新提示',
-            content: '检测到新版本，是否下载新版本并重启小程序？',
-            success: function(res) {
+            title: "更新提示",
+            content: "检测到新版本，是否下载新版本并重启小程序？",
+            success: function (res) {
               if (res.confirm) {
                 //2. 用户确定下载更新小程序，小程序下载及更新静默进行
-                self.downLoadAndUpdate(updateManager)
+                self.downLoadAndUpdate(updateManager);
               } else if (res.cancel) {
                 //用户点击取消按钮的处理，如果需要强制更新，则给出二次弹窗，如果不需要，则这里的代码都可以删掉了
                 wx.showModal({
-                  title: '温馨提示~',
-                  content: '本次版本更新涉及到新的功能添加，旧版本无法正常访问的哦~',
+                  title: "温馨提示~",
+                  content:
+                    "本次版本更新涉及到新的功能添加，旧版本无法正常访问的哦~",
                   showCancel: false, //隐藏取消按钮
                   confirmText: "确定更新", //只保留确定更新按钮
-                  success: function(res) {
+                  success: function (res) {
                     if (res.confirm) {
                       //下载新版本，并重新应用
-                      self.downLoadAndUpdate(updateManager)
+                      self.downLoadAndUpdate(updateManager);
                     }
-                  }
-                })
+                  },
+                });
               }
-            }
-          })
+            },
+          });
         }
-      })
+      });
     } else {
       // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
       wx.showModal({
-        title: '提示',
-        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-      })
+        title: "提示",
+        content:
+          "当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。",
+      });
     }
   },
   /**
    * 下载小程序新版本并重启应用
    */
   downLoadAndUpdate(updateManager) {
-    var self = this
+    var self = this;
     wx.showLoading();
     //静默下载更新小程序新版本
-    updateManager.onUpdateReady(function() {
-      wx.hideLoading()
+    updateManager.onUpdateReady(function () {
+      wx.hideLoading();
       //新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-      updateManager.applyUpdate()
-    })
-    updateManager.onUpdateFailed(function() {
+      updateManager.applyUpdate();
+    });
+    updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
       wx.showModal({
-        title: '已经有新版本了哟~',
-        content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~',
-      })
-    })
+        title: "已经有新版本了哟~",
+        content: "新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~",
+      });
+    });
   },
 
   onShow() {
-
+    console.log("App onShow");
   },
 });

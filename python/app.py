@@ -122,7 +122,7 @@ def download_video_endpoint():
 
 # 登录
 @app.route('/api/login', methods=['POST'])
-@limiter.limit('5 per minute')
+@limiter.limit('50 per minute') 
 def login():
     """处理微信小程序登录请求"""
     code = request.json.get('code')
@@ -136,7 +136,7 @@ def login():
         # 假设 openid 是唯一标识符，我们将其作为载荷的一部分
         payload = {
             'openid': openid,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # 设置过期时间
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=5)  # 设置过期时间
         }
 
         # 生成 JWT

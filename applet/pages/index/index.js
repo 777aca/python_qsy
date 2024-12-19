@@ -1,4 +1,5 @@
 const app = getApp();
+const { request } = require("../../utils/util");
 
 Page({
   data: {
@@ -10,8 +11,7 @@ Page({
     reqUrl: "",
   },
 
-  onShow() {
-  },
+  onShow() {},
 
   onLoad: function () {
     const showTip = wx.getStorageSync("autoTip").length <= 5;
@@ -19,9 +19,7 @@ Page({
       showTip,
     });
     setTimeout(() => this.closeNotice(), 10000);
-    const {
-      globalData,
-    } = app;
+    const { globalData } = app;
     console.log(globalData);
     this.setData({
       banner: globalData.banner,
@@ -32,7 +30,7 @@ Page({
 
   closeNotice: function () {
     this.setData({
-      showTip: false
+      showTip: false,
     });
     wx.setStorageSync("autoTip", "autoTip");
   },
@@ -49,7 +47,7 @@ Page({
 
     if (url) {
       wx.navigateTo({
-        url
+        url,
       });
     } else {
       console.warn("Unknown page type:", pageType);
@@ -58,13 +56,13 @@ Page({
 
   onInputUrl: function (e) {
     this.setData({
-      inputUrl: e.detail.value
+      inputUrl: e.detail.value,
     });
   },
 
   onClear: function () {
     this.setData({
-      inputUrl: ""
+      inputUrl: "",
     });
   },
 
@@ -81,7 +79,7 @@ Page({
       success: (res) => {
         const inputUrl = res.data || "";
         this.setData({
-          inputUrl
+          inputUrl,
         });
 
         if (inputUrl.length === 0) {
@@ -94,9 +92,9 @@ Page({
       fail: (err) => {
         console.log(err);
         const errMsg =
-          err.errno === 1512001 ?
-          "没有检测到有效的链接地址" :
-          "粘贴链接失败，请手动粘贴到输入框";
+          err.errno === 1512001
+            ? "没有检测到有效的链接地址"
+            : "粘贴链接失败，请手动粘贴到输入框";
         wx.showToast({
           title: errMsg,
           icon: "none",
@@ -125,19 +123,17 @@ Page({
 
   requestParse: function (link) {
     wx.showLoading({
-      title: "解析中..."
+      title: "解析中...",
     });
 
-    wx.request({
+    request({
       url: `${this.data.reqUrl}/api/parse_video`,
       method: "POST",
-      header:{
-        'Authorization': `Bearer ${wx.getStorageSync("token")}`
-      },
       data: {
-        link
+        link,
       },
-      success: (res) => {
+    })
+      .then((res) => {
         wx.hideLoading();
         const data = res.data.data;
 
@@ -154,13 +150,12 @@ Page({
         } else {
           this.showToast(res.data.msg || "解析失败");
         }
-      },
-      fail: (err) => {
+      })
+      .catch((err) => {
         wx.hideLoading();
         console.error("接口失败原因:", err);
         this.showToast("接口请求失败，请稍后重试");
-      },
-    });
+      });
   },
 
   showToast: function (message) {
@@ -169,7 +164,5 @@ Page({
       icon: "none",
     });
   },
-  onShareAppMessage() {
-
-  }
+  onShareAppMessage() {},
 });

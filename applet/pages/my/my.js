@@ -10,14 +10,15 @@ const MENU_KEYS = {
 
 Page({
   data: {
-    uid:"",
+    uid: "",
     nickName: "",
     avatarUrl: "",
     author: "",
     uid: "",
     globalColor: "",
     openid: "",
-    menus: [{
+    menus: [
+      {
         name: "联系作者",
         icon: "../../images/concat.png",
         key: MENU_KEYS.CONTACT,
@@ -36,11 +37,9 @@ Page({
   },
 
   initGlobalData() {
-    const {
-      globalData
-    } = app;
+    const { globalData } = app;
     this.setData({
-      uid:globalData.uid,
+      uid: globalData.uid,
       nickName: globalData.nickName,
       avatarUrl: globalData.headUrl,
       author: globalData.author,
@@ -48,11 +47,10 @@ Page({
       openid: globalData.openid,
       reqUrl: globalData.reqUrl,
     });
+    console.log(this.data, "this.data");
   },
   onShareTimeline() {
-    const {
-      globalData
-    } = app;
+    const { globalData } = app;
     return {
       title: globalData.shareTitle,
       query: "/pages/index/index",
@@ -61,9 +59,7 @@ Page({
   },
 
   navigateToPage(event) {
-    const {
-      key
-    } = event.currentTarget.dataset;
+    const { key } = event.currentTarget.dataset;
 
     // 路由处理逻辑
     const routes = {
@@ -87,7 +83,7 @@ Page({
 
   navigate(url) {
     wx.navigateTo({
-      url
+      url,
     });
   },
 });

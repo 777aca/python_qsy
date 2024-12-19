@@ -1,3 +1,5 @@
+const { request } = require("../../utils/util");
+
 Page({
   data: {
     globalColor: getApp().globalData.globalColor,
@@ -85,16 +87,14 @@ Page({
     });
 
     selectedVideos.forEach((videoUrl) => {
-      wx.request({
+      request({
         url: `${this.data.reqUrl}/api/download_video`, // 你的代理接口
         method: "POST",
-        header:{
-          'Authorization': `Bearer ${wx.getStorageSync("token")}`
-        },
         data: {
           video_url: videoUrl,
         },
-        success(res) {
+      })
+        .then((res) => {
           console.log(res);
           if (res.statusCode === 200) {
             // 直接保存视频
@@ -132,14 +132,13 @@ Page({
               icon: "none",
             });
           }
-        },
-        fail() {
+        })
+        .catch(() => {
           wx.showToast({
             title: "下载失败",
             icon: "none",
           });
-        },
-      });
+        });
     });
   },
 
@@ -150,17 +149,14 @@ Page({
       mask: true, // 遮罩层
     });
 
-    wx.request({
-      url: "https://777aca.cn/api/download_video", // 你的代理接口
+    request({
+      url: `${this.data.reqUrl}/api/download_video`, // 你的代理接口
       method: "POST",
-      header:{
-        'Authorization': `Bearer ${wx.getStorageSync("token")}`
-      },
       data: {
         video_url: url,
       },
-      success(res) {
-        console.log(res);
+    })
+      .then((res) => {
         if (res.statusCode === 200) {
           // 直接保存视频
           const filePath = res.data.new_video_url;
@@ -197,14 +193,13 @@ Page({
             icon: "none",
           });
         }
-      },
-      fail() {
+      })
+      .catch(() => {
         wx.showToast({
           title: "下载失败",
           icon: "none",
         });
-      },
-    });
+      });
   },
 
   // 下载所有图片
