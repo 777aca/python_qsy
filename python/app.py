@@ -145,7 +145,7 @@ def login():
         # 将字节类型的 token 转换为字符串
         token = token.decode('utf-8')  # 将 bytes 转为 string
 
-        return jsonify({'openid': openid, 'session_key': session_key, "token": token}), 200
+        return jsonify({'openid': openid, "token": token}), 200
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500

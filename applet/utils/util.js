@@ -82,7 +82,6 @@ function request(options) {
       ...options, // 扩展 options（这会把 options 的所有属性先放到请求中）
       data: {
         ...options.data, // 保留原本的 data，并且追加 openid
-        openid: getOpenid(),
       },
       header: {
         ...options.header, // 保留原本的 headers，并添加 Authorization

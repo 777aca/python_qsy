@@ -1,4 +1,5 @@
 const app = getApp();
+const { getOpenid } = require("../../utils/util");
 
 // 菜单键值常量
 const MENU_KEYS = {
@@ -33,6 +34,7 @@ Page({
 
   onShow() {
     console.log(app.globalData);
+    console.log(getOpenid());
     this.initGlobalData();
   },
 
@@ -44,7 +46,7 @@ Page({
       avatarUrl: globalData.headUrl,
       author: globalData.author,
       globalColor: globalData.globalColor,
-      openid: globalData.openid,
+      openid: getOpenid(),
       reqUrl: globalData.reqUrl,
     });
     console.log(this.data, "this.data");

@@ -10,7 +10,7 @@ App({
   // 全局数据
   globalData: {
     created_at: "",
-    openid: "",
+    openid: getOpenid(),
     userInfo: null,
     reqUrl: "https://777aca.cn",
     uid: 0,
@@ -110,6 +110,9 @@ App({
       request({
         url: `https://777aca.cn/api/get_user_info`, // 后端接口
         method: "POST",
+        data:{
+          openid: getOpenid(),
+        }
       })
         .then((response) => {
           resolve(response);
@@ -143,7 +146,6 @@ App({
     console.log("App Launch");
 
     this.globalData.openid = getOpenid();
-    this.autoUpdate();
     if (getOpenid()) {
       this.getUser(); // 登录后调用获取用户信息
     } else {
@@ -220,5 +222,6 @@ App({
 
   onShow() {
     console.log("App onShow");
+    this.autoUpdate();
   },
 });
